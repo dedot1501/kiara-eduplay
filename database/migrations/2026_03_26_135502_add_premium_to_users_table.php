@@ -7,16 +7,25 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Mematikan transaksi otomatis agar stabil di Neon Postgres.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Run the migrations.
      */
-   public function up(): void
+    public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Menambahkan kolom is_premium (0 = gratis, 1 = premium)
-            $table->boolean('is_premium')->default(false)->after('email');
+            // Menambahkan kolom is_premium (false = gratis, true = premium)
+            // Di Postgres, 'after' terkadang diabaikan, tapi kolom akan tetap masuk di akhir.
+            $table->boolean('is_premium')->default(false);
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {

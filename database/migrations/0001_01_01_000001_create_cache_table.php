@@ -7,18 +7,24 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Mematikan transaksi otomatis khusus untuk Neon agar tidak mengunci.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('cache', function (Blueprint $table) {
-            $table->string('key')->primary();
+            // Kita batasi panjang key ke 191 agar stabil saat jadi Primary Key di Postgres
+            $table->string('key', 191)->primary();
             $table->mediumText('value');
             $table->bigInteger('expiration')->index();
         });
 
         Schema::create('cache_locks', function (Blueprint $table) {
-            $table->string('key')->primary();
+            $table->string('key', 191)->primary();
             $table->string('owner');
             $table->bigInteger('expiration')->index();
         });

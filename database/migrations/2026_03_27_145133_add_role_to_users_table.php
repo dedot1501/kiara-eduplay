@@ -7,14 +7,19 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Mematikan transaksi otomatis agar stabil di Neon Postgres.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Menambahkan kolom role setelah kolom email
-            // Defaultnya adalah 'user'
-            $table->string('role')->default('user')->after('email');
+            // Menambahkan kolom role (admin/user)
+            // Di Postgres, 'after' mungkin diabaikan, tapi kolom tetap masuk.
+            $table->string('role', 50)->default('user');
         });
     }
 

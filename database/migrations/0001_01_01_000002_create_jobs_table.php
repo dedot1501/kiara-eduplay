@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Mematikan transaksi otomatis khusus untuk stabilitas di Neon Postgres.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Run the migrations.
      */
     public function up(): void
@@ -22,7 +27,8 @@ return new class extends Migration
         });
 
         Schema::create('job_batches', function (Blueprint $table) {
-            $table->string('id')->primary();
+            // Gunakan panjang 191 untuk stabilitas Primary Key string di Postgres
+            $table->string('id', 191)->primary();
             $table->string('name');
             $table->integer('total_jobs');
             $table->integer('pending_jobs');
@@ -36,7 +42,8 @@ return new class extends Migration
 
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('uuid')->unique();
+            // Gunakan panjang 191 untuk Unique index
+            $table->string('uuid', 191)->unique();
             $table->text('connection');
             $table->text('queue');
             $table->longText('payload');

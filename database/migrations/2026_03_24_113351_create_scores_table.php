@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * Mematikan transaksi otomatis agar lancar di Neon Postgres.
+     */
+    public $withinTransaction = false;
+
+    /**
      * Jalankan migration untuk membuat tabel scores.
      */
     public function up(): void
