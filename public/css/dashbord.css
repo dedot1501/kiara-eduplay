@@ -1,0 +1,45 @@
+/* Latar Belakang Pola Titik Ceria */
+.bg-edu-pattern {
+    background-color: #f8fafc;
+    background-image: radial-gradient(#4a90e2 0.5px, transparent 0.5px);
+    background-size: 30px 30px;
+}
+
+/* Animasi Melayang (Konsep Coretan Hijau) */
+.floating {
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1));
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* Kartu Game Interaktif */
+.game-card {
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game-card:hover {
+    transform: scale(1.05) translateY(-10px);
+}
+
+/* Karakter Kiara & Bubble Chat */
+.kiara-bounce {
+    animation: wiggle 3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg) scale(1.1); }
+}
+
+.chat-bubble {
+    position: relative;
+    background: #ffffff;
+    border: 3px solid #60a5fa;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
