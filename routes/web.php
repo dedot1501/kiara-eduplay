@@ -3,20 +3,28 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\Admin\AdminController; // Tambahkan ini
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\LevelContentController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-// 1. Landing Page
+/*
+|--------------------------------------------------------------------------
+| Web Routes - Kiara Eduplay
+|--------------------------------------------------------------------------
+*/
+
+// 1. Landing Page (Langsung diarahkan ke Dashboard)
+// Jika belum login, middleware auth akan otomatis mengarahkan ke halaman login
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('dashboard');
 });
 
 // 2. Area Terautentikasi (User & Member)
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // --- DASHBOARD & UTAMA ---
+    // Sekarang ini menjadi halaman utama aplikasi kamu
     Route::get('/dashboard', [GameController::class, 'dashboard'])->name('dashboard');
     Route::get('/leaderboard', [GameController::class, 'leaderboard'])->name('game.leaderboard');
 
@@ -45,14 +53,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // 3. Area Admin (Full Control Kiara Eduplay)
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Dashboard Utama Admin (Sekarang pakai AdminController)
+    // Dashboard Utama Admin
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 
-    // Kelola User (Fitur Premium & Hapus)
+    // Kelola User
     Route::patch('/users/{user}/premium', [AdminController::class, 'togglePremium'])->name('users.premium');
     Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
 
-    // Kelola Soal & Level (Tetap menggunakan LevelContentController)
+    // Kelola Soal & Level
     Route::get('/levels', [LevelContentController::class, 'index'])->name('levels.index');
     Route::post('/levels', [LevelContentController::class, 'store'])->name('levels.store');
     Route::delete('/levels/{id}', [LevelContentController::class, 'destroy'])->name('levels.destroy');
